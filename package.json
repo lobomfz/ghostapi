@@ -1,0 +1,58 @@
+{
+  "name": "@lobomfz/ghostapi",
+  "version": "0.1.0",
+  "description": "Mock http server with typed in-memory SQLite database",
+  "author": "lobomfz",
+  "homepage": "https://github.com/lobomfz/ghostapi#readme",
+  "bugs": {
+    "url": "https://github.com/lobomfz/ghostapi/issues"
+  },
+  "keywords": [
+    "elysia",
+    "kysely",
+    "mock",
+    "sqlite",
+    "standard-schema",
+    "testing"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lobomfz/ghostapi"
+  },
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@lobomfz/kysely-bun-sqlite": "^0.4.1",
+    "@standard-schema/spec": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxfmt": "^0.19.0",
+    "oxlint": "^1.34.0",
+    "redaxios": "^0.5.1",
+    "zod": "^4.2.1"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc",
+    "lint": "oxlint",
+    "format": "oxfmt --write src tests",
+    "check": "oxlint && tsc && bun test",
+    "prepublishOnly": "bun run check && bun run test"
+  },
+  "peerDependencies": {
+    "elysia": "^1.0.0",
+    "kysely": "^0.27.0"
+  }
+}
