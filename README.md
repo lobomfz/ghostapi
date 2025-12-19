@@ -72,7 +72,10 @@ stripeMock.listen(4100)
 
 test("update subscription", async () => {
   // you have access to your mocked api database directly
-  await stripeMock.db.insertInto("customers").values({ id: "cus_123", plan: "free" }).execute();
+  await stripeMock.db
+    .insertInto("customers")
+    .values({ id: "cus_123", plan: "free" })
+    .execute();
 
   const customer = await updateSubscription("cus_123", "pro");
 
