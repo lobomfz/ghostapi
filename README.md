@@ -1,6 +1,6 @@
 # ghostapi
 
-Mock http server with typed in-memory SQLite database. works with any [Standard Schema](https://standardschema.dev) library. uses [Kysely](https://kysely.dev) for type-safe database queries.
+Mock http server with typed in-memory SQLite database. powered by [Elysia](https://elysiajs.com). works with any [Standard Schema](https://standardschema.dev) library. uses [Kysely](https://kysely.dev) for type-safe database queries.
 
 ```bash
 bun add -d @lobomfz/ghostapi
@@ -28,11 +28,11 @@ create a mock that handles those routes:
 
 ```ts
 import { Mock } from "@lobomfz/ghostapi";
-import { z } from "zod";
+import { type } from "arktype";
 
-const schema = z.object({
-  id: z.string(),
-  plan: z.string(),
+const schema = type({
+  id: "string",
+  plan: "string",
 });
 
 const stripeMock = new Mock(
