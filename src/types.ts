@@ -26,3 +26,13 @@ export type SetupFunction<TSchemas extends Record<string, SchemaWithJsonSchema>>
   app: Elysia,
   context: SetupContext<TSchemas>,
 ) => void;
+
+export type MockConfig =
+  | {
+      port: number;
+      base_url?: never;
+    }
+  | {
+      port?: never;
+      base_url: string;
+    };

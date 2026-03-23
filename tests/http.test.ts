@@ -24,10 +24,6 @@ const mock = new Mock({ users: userSchema }, (app, { db }) => {
 
 mock.listen(3456);
 
-afterAll(() => {
-  mock.app.stop();
-});
-
 describe("http", () => {
   test("POST and GET", async () => {
     const { data: created } = await axios.post("http://localhost:3456/users", {

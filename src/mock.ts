@@ -2,12 +2,12 @@ import { Database } from "bun:sqlite";
 import { Elysia } from "elysia";
 import { Kysely, ParseJSONResultsPlugin } from "kysely";
 import { BunSqliteDialect } from "@lobomfz/kysely-bun-sqlite";
-import type { SchemaWithJsonSchema, SetupFunction, TablesFromSchemas } from "./types";
+import type { MockConfig, SchemaWithJsonSchema, SetupFunction, TablesFromSchemas } from "./types";
 
 export class Mock<Schemas extends Record<string, SchemaWithJsonSchema>> {
   private sqlite = new Database(":memory:");
 
-  readonly app = new Elysia();
+  private readonly app = new Elysia();
 
   readonly db = new Kysely<TablesFromSchemas<Schemas>>({
     dialect: new BunSqliteDialect({ database: this.sqlite }),
@@ -17,10 +17,29 @@ export class Mock<Schemas extends Record<string, SchemaWithJsonSchema>> {
   constructor(
     private schemas: Schemas,
     setup: SetupFunction<Schemas>,
+    config?: MockConfig,
   ) {
     this.createTables();
 
     setup(this.app, { db: this.db, schemas: this.schemas });
+
+    if (config) {
+      this.listen(this.getPort(config));
+    }
+  }
+
+  private getPort(config: MockConfig): number {
+    if (config.port !== undefined) {
+      return config.port;
+    }
+
+    const port = new URL(config.base_url).port;
+
+    if (port) {
+      return Number(port);
+    }
+
+    throw new Error(`base_url must include a port: ${config.base_url}`);
   }
 
   private createTables(): void {

@@ -1,6 +1,6 @@
 {
   "name": "@lobomfz/ghostapi",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Mock http server with typed in-memory SQLite database",
   "author": "lobomfz",
   "homepage": "https://github.com/lobomfz/ghostapi#readme",
