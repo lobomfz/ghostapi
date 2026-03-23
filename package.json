@@ -45,10 +45,10 @@
   },
   "scripts": {
     "test": "bun test",
-    "typecheck": "tsc",
+    "typecheck": "bunx tsc",
     "lint": "oxlint",
     "format": "oxfmt --write src tests",
-    "check": "oxlint && tsc && bun test",
+    "check": "oxlint && bunx tsc && bun test",
     "prepublishOnly": "bun run check && bun run test"
   },
   "peerDependencies": {

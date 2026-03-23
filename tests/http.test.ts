@@ -1,4 +1,4 @@
-import { describe, test, expect, afterAll } from "bun:test";
+import { describe, test, expect } from "bun:test";
 import { Mock } from "../src";
 import { z } from "zod";
 import axios from "redaxios";
