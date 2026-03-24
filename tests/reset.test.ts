@@ -1,17 +1,13 @@
 import { describe, test, expect } from "bun:test";
 import { Mock } from "../src";
-import { z } from "zod";
+import { type } from "arktype";
 
 describe("reset", () => {
   test("reset() clears all tables", async () => {
     const mock = new Mock(
       {
-        a: z.object({
-          v: z.string(),
-        }),
-        b: z.object({
-          v: z.string(),
-        }),
+        a: type({ v: "string" }),
+        b: type({ v: "string" }),
       },
       () => {},
     );
@@ -28,12 +24,8 @@ describe("reset", () => {
   test("reset(table) clears only that table", async () => {
     const mock = new Mock(
       {
-        a: z.object({
-          v: z.string(),
-        }),
-        b: z.object({
-          v: z.string(),
-        }),
+        a: type({ v: "string" }),
+        b: type({ v: "string" }),
       },
       () => {},
     );

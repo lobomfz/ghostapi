@@ -1,11 +1,11 @@
 import { describe, test, expect } from "bun:test";
 import axios from "redaxios";
-import { z } from "zod";
+import { type } from "arktype";
 import { Mock } from "../src";
 
-const userSchema = z.object({
-  id: z.string(),
-  name: z.string(),
+const userSchema = type({
+  id: "string",
+  name: "string",
 });
 
 describe("mock config", () => {

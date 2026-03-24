@@ -1,27 +1,24 @@
-import { Database } from "bun:sqlite";
+import { Database, type SchemaRecord, type TablesFromSchemas } from "@lobomfz/db";
 import { Elysia } from "elysia";
-import { Kysely, ParseJSONResultsPlugin } from "kysely";
-import { BunSqliteDialect } from "@lobomfz/kysely-bun-sqlite";
-import type { MockConfig, SchemaWithJsonSchema, SetupFunction, TablesFromSchemas } from "./types";
+import type { Kysely } from "kysely";
+import type { MockConfig, SetupFunction } from "./types";
 
-export class Mock<Schemas extends Record<string, SchemaWithJsonSchema>> {
-  private sqlite = new Database(":memory:");
+export class Mock<T extends SchemaRecord> {
+  private database: Database<T>;
 
   private readonly app = new Elysia();
 
-  readonly db = new Kysely<TablesFromSchemas<Schemas>>({
-    dialect: new BunSqliteDialect({ database: this.sqlite }),
-    plugins: [new ParseJSONResultsPlugin()],
-  });
+  readonly db: Kysely<TablesFromSchemas<T>>;
 
   constructor(
-    private schemas: Schemas,
-    setup: SetupFunction<Schemas>,
+    tables: T,
+    setup: SetupFunction<T>,
     config?: MockConfig,
   ) {
-    this.createTables();
+    this.database = new Database({ path: ":memory:", schema: { tables } });
+    this.db = this.database.kysely;
 
-    setup(this.app, { db: this.db, schemas: this.schemas });
+    setup(this.app, { db: this.db, schemas: tables });
 
     if (config) {
       this.listen(this.getPort(config));
@@ -42,63 +39,11 @@ export class Mock<Schemas extends Record<string, SchemaWithJsonSchema>> {
     throw new Error(`base_url must include a port: ${config.base_url}`);
   }
 
-  private createTables(): void {
-    for (const [tableName, schema] of Object.entries(this.schemas)) {
-      const jsonSchema = schema["~standard"].jsonSchema.input({
-        target: "draft-2020-12",
-      });
-
-      const columns: string[] = [];
-
-      for (const [columnName, propSchema] of Object.entries(jsonSchema.properties as any)) {
-        columns.push(this.jsonSchemaTypeToSql(columnName, (propSchema as any).type));
-      }
-
-      this.sqlite.run(`CREATE TABLE ${tableName} (${columns.join(", ")})`);
-    }
-  }
-
-  private jsonSchemaTypeToSql(column: string, type: string): string {
-    if (Array.isArray(type)) {
-      type = type.find((t) => t !== "null") || "string";
-    }
-
-    let sqlType = "TEXT";
-
-    switch (type) {
-      case "string":
-        sqlType = "TEXT";
-        break;
-      case "number":
-        sqlType = "REAL";
-        break;
-      case "integer":
-        sqlType = "INTEGER";
-        break;
-      case "boolean":
-        sqlType = "INTEGER";
-        break;
-      case "object":
-      case "array":
-        sqlType = "TEXT";
-        break;
-    }
-
-    return `${column} ${sqlType}`;
-  }
-
   listen(port: number): void {
     this.app.listen(port);
   }
 
-  reset(table?: keyof Schemas & string): void {
-    if (table) {
-      this.sqlite.run(`DELETE FROM ${table}`);
-      return;
-    }
-
-    for (const table of Object.keys(this.schemas)) {
-      this.sqlite.run(`DELETE FROM ${table}`);
-    }
+  reset(table?: keyof T & string): void {
+    this.database.reset(table);
   }
 }

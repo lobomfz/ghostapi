@@ -1,18 +1,18 @@
 {
   "name": "@lobomfz/ghostapi",
-  "version": "0.2.0",
-  "description": "Mock http server with typed in-memory SQLite database",
+  "version": "0.3.0",
+  "description": "Mock http server with arktype-typed in-memory SQLite database",
   "author": "lobomfz",
   "homepage": "https://github.com/lobomfz/ghostapi#readme",
   "bugs": {
     "url": "https://github.com/lobomfz/ghostapi/issues"
   },
   "keywords": [
+    "arktype",
     "elysia",
     "kysely",
     "mock",
     "sqlite",
-    "standard-schema",
     "testing"
   ],
   "license": "MIT",
@@ -32,27 +32,25 @@
       "import": "./src/index.ts"
     }
   },
-  "dependencies": {
-    "@lobomfz/kysely-bun-sqlite": "^0.4.1",
-    "@standard-schema/spec": "^1.1.0"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "oxfmt": "^0.19.0",
-    "oxlint": "^1.34.0",
-    "redaxios": "^0.5.1",
-    "zod": "^4.2.1"
-  },
   "scripts": {
     "test": "bun test",
-    "typecheck": "bunx tsc",
     "lint": "oxlint",
     "format": "oxfmt --write src tests",
-    "check": "oxlint && bunx tsc && bun test",
-    "prepublishOnly": "bun run check && bun run test"
+    "check": "oxlint && bunx tsc && bun test"
   },
   "peerDependencies": {
+    "@lobomfz/db": "^0.2.0",
+    "arktype": "^2.1.29",
     "elysia": "^1.0.0",
-    "kysely": "^0.27.0"
+    "kysely": "^0.28.14"
+  },
+  "devDependencies": {
+    "@lobomfz/db": "file:../db",
+    "@types/bun": "latest",
+    "arktype": "^2.1.29",
+    "kysely": "^0.28.14",
+    "oxfmt": "^0.42.0",
+    "oxlint": "^1.57.0",
+    "redaxios": "^0.5.1"
   }
 }
