@@ -1,12 +1,7 @@
 {
   "name": "@lobomfz/ghostapi",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Mock http server with arktype-typed in-memory SQLite database",
-  "author": "lobomfz",
-  "homepage": "https://github.com/lobomfz/ghostapi#readme",
-  "bugs": {
-    "url": "https://github.com/lobomfz/ghostapi/issues"
-  },
   "keywords": [
     "arktype",
     "elysia",
@@ -15,7 +10,12 @@
     "sqlite",
     "testing"
   ],
+  "homepage": "https://github.com/lobomfz/ghostapi#readme",
+  "bugs": {
+    "url": "https://github.com/lobomfz/ghostapi/issues"
+  },
   "license": "MIT",
+  "author": "lobomfz",
   "repository": {
     "type": "git",
     "url": "https://github.com/lobomfz/ghostapi"
@@ -38,19 +38,19 @@
     "format": "oxfmt --write src tests",
     "check": "oxlint && bunx tsc && bun test"
   },
-  "peerDependencies": {
-    "@lobomfz/db": "^0.2.0",
-    "arktype": "^2.1.29",
-    "elysia": "^1.0.0",
-    "kysely": "^0.28.14"
-  },
   "devDependencies": {
-    "@lobomfz/db": "file:../db",
+    "@lobomfz/db": "^0.2.1",
     "@types/bun": "latest",
     "arktype": "^2.1.29",
     "kysely": "^0.28.14",
     "oxfmt": "^0.42.0",
     "oxlint": "^1.57.0",
     "redaxios": "^0.5.1"
+  },
+  "peerDependencies": {
+    "@lobomfz/db": "^0.2.0",
+    "arktype": "^2.1.29",
+    "elysia": "^1.0.0",
+    "kysely": "^0.28.14"
   }
 }
