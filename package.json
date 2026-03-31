@@ -1,6 +1,6 @@
 {
   "name": "@lobomfz/ghostapi",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Mock http server with arktype-typed in-memory SQLite database",
   "keywords": [
     "arktype",
@@ -39,12 +39,12 @@
     "check": "oxlint && bunx tsc && bun test"
   },
   "devDependencies": {
-    "@lobomfz/db": "^0.2.1",
+    "@lobomfz/db": "^0.3.4",
     "@types/bun": "latest",
-    "arktype": "^2.1.29",
-    "kysely": "^0.28.14",
-    "oxfmt": "^0.42.0",
-    "oxlint": "^1.57.0",
+    "arktype": "^2.2.0",
+    "kysely": "^0.28.15",
+    "oxfmt": "^0.43.0",
+    "oxlint": "^1.58.0",
     "redaxios": "^0.5.1"
   },
   "peerDependencies": {
