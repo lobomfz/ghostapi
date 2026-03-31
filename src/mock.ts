@@ -1,6 +1,5 @@
-import { Database, type SchemaRecord, type TablesFromSchemas } from "@lobomfz/db";
+import { Database, type SchemaRecord, type TablesFromSchemas, type Kysely } from "@lobomfz/db";
 import { Elysia } from "elysia";
-import type { Kysely } from "kysely";
 import type { MockConfig, SetupFunction } from "./types";
 
 export class Mock<T extends SchemaRecord> {
@@ -10,11 +9,7 @@ export class Mock<T extends SchemaRecord> {
 
   readonly db: Kysely<TablesFromSchemas<T>>;
 
-  constructor(
-    tables: T,
-    setup: SetupFunction<T>,
-    config?: MockConfig,
-  ) {
+  constructor(tables: T, setup: SetupFunction<T>, config?: MockConfig) {
     this.database = new Database({ path: ":memory:", schema: { tables } });
     this.db = this.database.kysely;
 

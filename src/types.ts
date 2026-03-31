@@ -1,6 +1,5 @@
-import type { SchemaRecord, TablesFromSchemas } from "@lobomfz/db";
+import type { SchemaRecord, TablesFromSchemas, type Kysely } from "@lobomfz/db";
 import type Elysia from "elysia";
-import type { Kysely } from "kysely";
 
 export type SetupContext<T extends SchemaRecord> = {
   db: Kysely<TablesFromSchemas<T>>;
