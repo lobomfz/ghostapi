@@ -1,4 +1,4 @@
-import type { SchemaRecord, TablesFromSchemas, type Kysely } from "@lobomfz/db";
+import type { SchemaRecord, TablesFromSchemas, Kysely } from "@lobomfz/db";
 import type Elysia from "elysia";
 
 export type SetupContext<T extends SchemaRecord> = {
@@ -6,10 +6,7 @@ export type SetupContext<T extends SchemaRecord> = {
   schemas: T;
 };
 
-export type SetupFunction<T extends SchemaRecord> = (
-  app: Elysia,
-  context: SetupContext<T>,
-) => void;
+export type SetupFunction<T extends SchemaRecord> = (app: Elysia, context: SetupContext<T>) => void;
 
 export type MockConfig =
   | {
