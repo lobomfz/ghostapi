@@ -57,6 +57,11 @@ const stripeMock = new Mock(
       },
       { body: schema },
     );
+
+    return {
+      seedCustomer: (id: string, plan: string) =>
+        db.insertInto("customers").values({ id, plan }).execute(),
+    };
   },
 );
 ```
@@ -68,14 +73,11 @@ import { test, expect } from "bun:test";
 // your production code
 import { updateSubscription } from "../src/billing";
 
-stripeMock.listen(4100)
+stripeMock.listen(4100);
 
 test("update subscription", async () => {
-  // you have access to your mocked api database directly
-  await stripeMock.db
-    .insertInto("customers")
-    .values({ id: "cus_123", plan: "free" })
-    .execute();
+  // seed data through helpers or directly via db
+  await stripeMock.helpers.seedCustomer("cus_123", "free");
 
   const customer = await updateSubscription("cus_123", "pro");
 
@@ -86,10 +88,10 @@ test("update subscription", async () => {
 ## API
 
 ```ts
-new Mock<T>(schemas: T, setup: (app: Elysia, ctx: { db: Kysely<T>, schemas: T }) => void)
+new Mock<T, H>(schemas: T, setup: (app: Elysia, ctx: { db: Kysely<T>, schemas: T }) => H | void)
 
-mock.app     // Elysia instance
 mock.db      // Kysely client
+mock.helpers // return value from setup function
 mock.listen(port: number): void
 mock.reset(table?: keyof T): void
 ```

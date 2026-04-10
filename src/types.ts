@@ -6,7 +6,10 @@ export type SetupContext<T extends SchemaRecord> = {
   schemas: T;
 };
 
-export type SetupFunction<T extends SchemaRecord> = (app: Elysia, context: SetupContext<T>) => void;
+export type SetupFunction<T extends SchemaRecord, H = void> = (
+  app: Elysia,
+  context: SetupContext<T>,
+) => H;
 
 export type MockConfig =
   | {

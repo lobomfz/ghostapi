@@ -2,18 +2,20 @@ import { Database, type SchemaRecord, type TablesFromSchemas, type Kysely } from
 import { Elysia } from "elysia";
 import type { MockConfig, SetupFunction } from "./types";
 
-export class Mock<T extends SchemaRecord> {
+export class Mock<T extends SchemaRecord, H = void> {
   private database: Database<T>;
 
   private readonly app = new Elysia();
 
   readonly db: Kysely<TablesFromSchemas<T>>;
 
-  constructor(tables: T, setup: SetupFunction<T>, config?: MockConfig) {
+  readonly helpers: H;
+
+  constructor(tables: T, setup: SetupFunction<T, H>, config?: MockConfig) {
     this.database = new Database({ path: ":memory:", schema: { tables } });
     this.db = this.database.kysely;
 
-    setup(this.app, { db: this.db, schemas: tables });
+    this.helpers = setup(this.app, { db: this.db, schemas: tables });
 
     if (config) {
       this.listen(this.getPort(config));
