@@ -8,7 +8,7 @@ const userSchema = type({
   name: "string",
 });
 
-const mock = new Mock({ users: userSchema }, (app, { db }) => {
+const mock = await Mock.create({ users: userSchema }, (app, { db }) => {
   app.get("/users", () => db.selectFrom("users").selectAll().execute());
 
   app.get("/users/:id", ({ params }) =>

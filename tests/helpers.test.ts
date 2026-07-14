@@ -9,7 +9,7 @@ const userSchema = type({
 
 describe("helpers", () => {
   test("helper executes and affects the database", async () => {
-    const mock = new Mock({ users: userSchema }, (_app, { db }) => {
+    const mock = await Mock.create({ users: userSchema }, (_app, { db }) => {
       return {
         clearAllUsers: () => db.deleteFrom("users").execute(),
       };
@@ -25,7 +25,7 @@ describe("helpers", () => {
   });
 
   test("multiple helpers are all accessible", async () => {
-    const mock = new Mock({ users: userSchema }, (_app, { db }) => {
+    const mock = await Mock.create({ users: userSchema }, (_app, { db }) => {
       return {
         clearAllUsers: () => db.deleteFrom("users").execute(),
         seedUser: (id: string, name: string) =>

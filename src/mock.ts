@@ -3,23 +3,35 @@ import { Elysia } from "elysia";
 import type { MockConfig, SetupFunction } from "./types";
 
 export class Mock<T extends SchemaRecord, H = void> {
-  private database: Database<T>;
-
-  private readonly app = new Elysia();
+  readonly app = new Elysia();
 
   readonly db: Kysely<TablesFromSchemas<T>>;
 
   readonly helpers: H;
 
-  constructor(tables: T, setup: SetupFunction<T, H>, config?: MockConfig) {
-    this.database = new Database({ path: ":memory:", schema: { tables } });
-    this.db = this.database.kysely;
+  private constructor(
+    private readonly database: Database<T>,
+    tables: T,
+    setup: SetupFunction<T, H>,
+    config?: MockConfig,
+  ) {
+    this.db = database.kysely;
 
     this.helpers = setup(this.app, { db: this.db, schemas: tables });
 
     if (config) {
       this.listen(this.getPort(config));
     }
+  }
+
+  static async create<T extends SchemaRecord, H = void>(
+    tables: T,
+    setup: SetupFunction<T, H>,
+    config?: MockConfig,
+  ): Promise<Mock<T, H>> {
+    const database = await Database.open({ path: ":memory:", schema: { tables } });
+
+    return new Mock(database, tables, setup, config);
   }
 
   private getPort(config: MockConfig): number {

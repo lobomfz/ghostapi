@@ -4,7 +4,7 @@ import { type } from "arktype";
 
 describe("reset", () => {
   test("reset() clears all tables", async () => {
-    const mock = new Mock(
+    const mock = await Mock.create(
       {
         a: type({ v: "string" }),
         b: type({ v: "string" }),
@@ -22,7 +22,7 @@ describe("reset", () => {
   });
 
   test("reset(table) clears only that table", async () => {
-    const mock = new Mock(
+    const mock = await Mock.create(
       {
         a: type({ v: "string" }),
         b: type({ v: "string" }),

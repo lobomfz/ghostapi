@@ -1,6 +1,6 @@
 {
   "name": "@lobomfz/ghostapi",
-  "version": "0.3.5",
+  "version": "1.0.1",
   "description": "Mock http server with arktype-typed in-memory SQLite database",
   "keywords": [
     "arktype",
@@ -46,7 +46,7 @@
     "redaxios": "^0.5.1"
   },
   "peerDependencies": {
-    "@lobomfz/db": "^0.3.5",
+    "@lobomfz/db": "^0.5.1",
     "elysia": "^1.0.0"
   }
 }

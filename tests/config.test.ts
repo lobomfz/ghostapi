@@ -10,7 +10,7 @@ const userSchema = type({
 
 describe("mock config", () => {
   test("listens automatically when port is provided", async () => {
-    const mock = new Mock(
+    const mock = await Mock.create(
       { users: userSchema },
       (app, { db }) => {
         app.get("/users", () => db.selectFrom("users").selectAll().execute());
@@ -26,7 +26,7 @@ describe("mock config", () => {
   });
 
   test("listens automatically when base_url is provided", async () => {
-    const mock = new Mock(
+    const mock = await Mock.create(
       { users: userSchema },
       (app, { db }) => {
         app.get("/users", () => db.selectFrom("users").selectAll().execute());
